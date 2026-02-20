@@ -57,6 +57,7 @@ sections:
         url: "https://bit.ly/3w6ojFn"
         type: "video"
         description: "Overview about data certificates in Arabic"
+        thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"  # Replace with actual video ID
       - name: "Data Quality 101"
         url: "#"
         type: "video"
@@ -100,6 +101,7 @@ certifications:
     org: "Google"
     url: "https://www.credly.com/badges/10dcb660-0c28-4c26-a6dc-ef230f3ccef3"
     year: 2024
+    image: "https://images.credly.com/size/340x340/images/5c8fca38-b0d2-49e5-9ad2-f3f8e79b327f/image.png"  # Google cert badge
   - name: "TOGAF 9 Certified"
     org: "The Open Group"
     url: "https://www.dropbox.com/scl/fi/poahbieoihyzo4a4f8nm8/TOGAF_ABDULLAH_ALKASSAS.pdf?rlkey=ejmughldhevfq3plgu9scu3ym&e=1&dl=0"
@@ -116,14 +118,17 @@ certifications:
     org: "Microsoft"
     url: "https://www.credly.com/badges/42b6635b-1933-4ae0-aafe-1e61fb5f9da1"
     year: 2020
+    image: "https://images.credly.com/size/340x340/images/619f60f8-4f63-4772-910e-dc31c6f2f7e8/image.png"  # Power BI cert badge
   - name: "Tableau Desktop Specialist"
     org: "Tableau"
     url: "https://www.credly.com/badges/0f3f38a9-cbce-46f4-acf7-31569d61447d"
     year: 2020
+    image: "https://images.credly.com/size/340x340/images/c3c117fb-544d-4e23-b8ba-6988b8a491d3/image.png"  # Tableau cert badge
   - name: "Project Management Professional (PMP)"
     org: "PMI"
     url: "https://www.credly.com/badges/9bd2038b-1552-4f2d-8531-0de0a47641ef"
     year: 2020
+    image: "https://images.credly.com/size/340x340/images/260e36dc-d100-45c3-852f-9d8063fa71e6/image.png"  # PMP cert badge
 
 # ---------------------------------------------------------------------------
 # Footer

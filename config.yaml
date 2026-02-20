@@ -1,0 +1,132 @@
+# =============================================================================
+# About Me Site Configuration
+# =============================================================================
+# Edit this file to update your site content. No code changes needed!
+# The site reads this YAML file at load time and renders everything dynamically.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Profile Section
+# ---------------------------------------------------------------------------
+profile:
+  name: "Abdullah Kassas"
+  tagline: "Data Architecture | Data Engineering | Analytics"
+  bio: >
+    Data architecture and engineering expert with deep interests
+    in analytics and GenAI. Passionate about building scalable data
+    platforms and sharing knowledge through teaching and content creation.
+  avatar: "assets/avatar.jpg"
+
+# ---------------------------------------------------------------------------
+# Social Links
+# Displayed as icon buttons beneath the profile. Supported icons:
+#   email, linkedin, github, twitter, youtube, instagram, website
+# ---------------------------------------------------------------------------
+social:
+  - platform: email
+    url: "mailto:a.kassas@gmail.com"
+    label: "Email"
+  - platform: linkedin
+    url: "https://linkedin.com/in/3bdallah"
+    label: "LinkedIn"
+  - platform: github
+    url: "https://github.com/i3bdallah"
+    label: "GitHub"
+
+# ---------------------------------------------------------------------------
+# Link Sections
+# Each section becomes a category of Linktree-style cards.
+# Supported types: resume, video, course, slides, post, link
+# ---------------------------------------------------------------------------
+sections:
+
+  # --- Resume ---
+  - title: "Resume"
+    icon: "resume"
+    links:
+      - name: "Download Resume (PDF)"
+        url: "assets/ABDULLAH_KASSAS_RESUME.pdf"
+        type: "resume"
+        description: "My latest professional resume"
+
+  # --- YouTube Videos ---
+  - title: "YouTube Videos"
+    icon: "video"
+    links:
+      - name: "Data Certificates Overview — Part 1 (Arabic)"
+        url: "https://bit.ly/3w6ojFn"
+        type: "video"
+        description: "Overview about data certificates in Arabic"
+      - name: "Data Quality 101"
+        url: "#"
+        type: "video"
+        description: "Coming soon"
+        coming_soon: true
+      - name: "Process Mining 101"
+        url: "#"
+        type: "video"
+        description: "Coming soon"
+        coming_soon: true
+
+  # --- Courses ---
+  - title: "Courses"
+    icon: "course"
+    links:
+      - name: "Udemy | AWS SDK for Pandas"
+        url: "#"
+        type: "course"
+        description: "Coming soon"
+        coming_soon: true
+
+  # --- Slides & Presentations ---
+  - title: "Slides & Presentations"
+    icon: "slides"
+    links:
+      - name: "Intro to Data Quality"
+        url: "https://bit.ly/DataQualitySlides"
+        type: "slides"
+        description: "Learn the basics of how to implement Data Quality in your organization"
+      - name: "Intro to Process Mining"
+        url: "https://bit.ly/ProcessMining101Slides"
+        type: "slides"
+        description: "Learn the basics of Process Mining — a new way to look at data"
+
+# ---------------------------------------------------------------------------
+# Certifications
+# Displayed as compact badges beneath the link sections.
+# ---------------------------------------------------------------------------
+certifications:
+  - name: "Google Professional Data Engineer"
+    org: "Google"
+    url: "https://www.credly.com/badges/10dcb660-0c28-4c26-a6dc-ef230f3ccef3"
+    year: 2024
+  - name: "TOGAF 9 Certified"
+    org: "The Open Group"
+    url: "https://www.dropbox.com/scl/fi/poahbieoihyzo4a4f8nm8/TOGAF_ABDULLAH_ALKASSAS.pdf?rlkey=ejmughldhevfq3plgu9scu3ym&e=1&dl=0"
+    year: 2020
+  - name: "CDMP — Associate Level"
+    org: "DAMA"
+    url: "https://badgr.com/public/assertions/BzyiDc5kTLGwjuwBgR2cQA?identity__email=a.kassas@gmail.com"
+    year: 2020
+  - name: "Certified Business Intelligence Professional"
+    org: "TDWI"
+    url: ""
+    year: 2020
+  - name: "Power BI Data Analyst Associate"
+    org: "Microsoft"
+    url: "https://www.credly.com/badges/42b6635b-1933-4ae0-aafe-1e61fb5f9da1"
+    year: 2020
+  - name: "Tableau Desktop Specialist"
+    org: "Tableau"
+    url: "https://www.credly.com/badges/0f3f38a9-cbce-46f4-acf7-31569d61447d"
+    year: 2020
+  - name: "Project Management Professional (PMP)"
+    org: "PMI"
+    url: "https://www.credly.com/badges/9bd2038b-1552-4f2d-8531-0de0a47641ef"
+    year: 2020
+
+# ---------------------------------------------------------------------------
+# Footer
+# ---------------------------------------------------------------------------
+footer:
+  text: "© 2026 Abdullah Kassas. All rights reserved."

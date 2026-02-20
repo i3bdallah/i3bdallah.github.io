@@ -1,73 +1,85 @@
-# About Me - Modern Static Site
+# About Me — Config-Driven Static Site
 
-A clean, modern, and responsive personal About Me page with social links and resume download.
+A modern, Linktree-inspired personal site built with vanilla HTML, CSS, and JavaScript.
+All content is driven from a single `config.yaml` file — no code changes needed to update your info.
 
-## Features
+## Architecture
 
-- ✨ Modern, minimal design
-- 📱 Fully responsive
-- 🎨 Beautiful gradient background
-- 🔗 Social media links (GitHub, LinkedIn, Twitter, Instagram, Email)
-- 📄 Resume download button
-- 🖼️ Profile picture with hover effects
-- ⚡ Fast and lightweight (pure HTML/CSS, no frameworks)
+```
+about_me/
+  index.html       ← Minimal HTML shell (rarely needs editing)
+  styles.css        ← Modern dark-theme styles with CSS custom properties
+  app.js            ← Rendering engine: fetches config.yaml → builds the DOM
+  config.yaml       ← ALL site content lives here (edit this!)
+  assets/
+    avatar.jpg      ← Your profile picture
+    *.pdf           ← Resume and other downloadable files
+```
 
-## Setup
+## How It Works
 
-1. **Customize Your Information**
-   - Edit `index.html`:
-     - Update "Your Name" with your actual name
-     - Change the tagline to match your professional title
-     - Update the bio section with your description
-     - Update all social media links with your profiles
-     - Update the email address
+1. `index.html` loads `js-yaml` from CDN and `app.js`
+2. `app.js` fetches `config.yaml`, parses it, and renders every section
+3. All content — name, bio, links, certifications — comes from the YAML
 
-2. **Add Your Assets**
-   - Replace `assets/profile.jpg` with your profile photo (square, 300x300px minimum)
-   - Add your resume as `assets/resume.pdf`
+## Editing Content
 
-3. **Deploy**
-   - This is a static site that can be deployed to:
-     - GitHub Pages
-     - Netlify
-     - Vercel
-     - Any static hosting service
+Open `config.yaml` and update the sections:
 
-## Customization
+- **profile** — name, tagline, bio, avatar path
+- **social** — social media links (email, linkedin, github, etc.)
+- **sections** — categorized link cards (resume, videos, courses, slides, posts)
+- **certifications** — professional badges with credential URLs
+- **footer** — copyright text
 
-### Colors
-Edit the CSS variables in `styles.css`:
+### Adding a new link
+
+```yaml
+sections:
+  - title: "My New Section"
+    icon: "link"          # icon name: resume, video, course, slides, post, link
+    links:
+      - name: "Link Title"
+        url: "https://example.com"
+        type: "link"
+        description: "Short description shown below the title"
+```
+
+### Adding a new certification
+
+```yaml
+certifications:
+  - name: "Cert Name"
+    org: "Issuing Org"
+    url: "https://credential-url.com"
+    year: 2025
+```
+
+## Theming
+
+Edit the CSS custom properties at the top of `styles.css`:
+
 ```css
 :root {
-    --primary-color: #2563eb;  /* Main accent color */
-    --text-primary: #1f2937;   /* Primary text */
-    --text-secondary: #6b7280; /* Secondary text */
+    --bg-primary: #0f0f0f;       /* Page background */
+    --accent: #3b82f6;           /* Accent colour (links, icons) */
+    --text-primary: #f5f5f5;     /* Main text */
+    --text-secondary: #a1a1aa;   /* Tagline, descriptions */
 }
 ```
 
-### Background Gradient
-Change the gradient in `body` selector in `styles.css`:
-```css
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-```
+## Deployment
 
-### Font
-The site uses Inter font from Google Fonts. To change it, update the font link in `index.html` and the `font-family` in `styles.css`.
+This is a fully static site. Deploy to any static host:
 
-## Technology Stack
+- **GitHub Pages** — push to a `gh-pages` branch or enable Pages on `main`
+- **Netlify / Vercel** — connect the repo, no build step needed
+- **Any web server** — just serve the files as-is
 
-- HTML5
-- CSS3 (with CSS Grid & Flexbox)
-- Google Fonts (Inter)
-- SVG Icons
+## Tech Stack
 
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## License
-
-Feel free to use this template for your personal site!
+- HTML5, CSS3 (Grid, Flexbox, Custom Properties)
+- Vanilla JavaScript (ES2017+, async/await)
+- [js-yaml](https://github.com/nodeca/js-yaml) via CDN for YAML parsing
+- [Inter](https://rsms.me/inter/) font from Google Fonts
+- Inline SVG icons (no external icon library)

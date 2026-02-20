@@ -1,200 +1,451 @@
-* {
+/* =============================================================================
+   About Me — Modern Static Site Styles
+   =============================================================================
+   Design philosophy: Linktree-inspired, single-column, centered layout.
+   Dark theme with glass-morphism cards and subtle animations.
+   All colours and spacing use CSS custom properties for easy theming.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   CSS Reset
+   --------------------------------------------------------------------------- */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* ---------------------------------------------------------------------------
+   Design Tokens (Custom Properties)
+   Change these to re-theme the entire site.
+   --------------------------------------------------------------------------- */
 :root {
-    --primary-color: #2563eb;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --background: #ffffff;
-    --surface: #f9fafb;
-    --border: #e5e7eb;
-    --shadow: rgba(0, 0, 0, 0.1);
+    /* Surface colours */
+    --bg-primary: #0f0f0f;
+    --bg-card: rgba(255, 255, 255, 0.05);
+    --bg-card-hover: rgba(255, 255, 255, 0.10);
+    --bg-badge: rgba(255, 255, 255, 0.08);
+
+    /* Text colours */
+    --text-primary: #f5f5f5;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+
+    /* Accent */
+    --accent: #3b82f6;
+    --accent-glow: rgba(59, 130, 246, 0.4);
+
+    /* Borders & shadows */
+    --border: rgba(255, 255, 255, 0.08);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------------------
+   Base & Body
+   --------------------------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
+    min-height: 100vh;
 }
 
+/* Subtle animated gradient background */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59, 130, 246, 0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(139, 92, 246, 0.1), transparent);
+}
+
+/* ---------------------------------------------------------------------------
+   Container — single centered column
+   --------------------------------------------------------------------------- */
 .container {
-    background: var(--background);
-    max-width: 600px;
     width: 100%;
-    border-radius: 24px;
-    padding: 3rem 2.5rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fadeUp 0.5s ease-out;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------------------
+   Profile Section
+   --------------------------------------------------------------------------- */
+.profile {
     text-align: center;
-    animation: fadeIn 0.6s ease-out;
+    padding: 1rem 0;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.profile-section {
-    margin-bottom: 2rem;
-}
-
-.profile-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.profile__avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: var(--radius-full);
     object-fit: cover;
-    border: 4px solid var(--primary-color);
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 16px var(--shadow);
-    transition: transform 0.3s ease;
+    border: 3px solid var(--border);
+    box-shadow: var(--shadow-lg), 0 0 40px var(--accent-glow);
+    margin-bottom: 1.25rem;
+    transition: transform var(--transition);
 }
 
-.profile-img:hover {
-    transform: scale(1.05);
+.profile__avatar:hover {
+    transform: scale(1.04);
 }
 
-.name {
-    font-size: 2.5rem;
+.profile__name {
+    font-size: 2rem;
     font-weight: 700;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
 }
 
-.tagline {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-}
-
-.bio {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    background: var(--surface);
-    border-radius: 16px;
-    border: 1px solid var(--border);
-}
-
-.bio p {
+.profile__tagline {
     font-size: 1rem;
+    font-weight: 400;
     color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.profile__bio {
+    font-size: 0.938rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto;
     line-height: 1.7;
 }
 
-.links {
-    margin: 2rem 0;
+/* ---------------------------------------------------------------------------
+   Social Icon Row
+   --------------------------------------------------------------------------- */
+.social-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
-.link-button {
+.social-row__link {
+    width: 44px;
+    height: 44px;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 2rem;
-    background: var(--primary-color);
-    color: white;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
     text-decoration: none;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: all var(--transition);
 }
 
-.link-button:hover {
-    background: #1d4ed8;
+.social-row__link:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 4px 16px var(--accent-glow);
 }
 
-.link-button svg {
+.social-row__link svg {
     width: 20px;
     height: 20px;
 }
 
-.social-links {
+/* ---------------------------------------------------------------------------
+   Link Sections — each content category
+   --------------------------------------------------------------------------- */
+.link-section {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 2.5rem 0 2rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.625rem;
 }
 
-.social-icon {
-    width: 48px;
-    height: 48px;
+.link-section__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 0.25rem;
+    margin-bottom: 0.125rem;
+}
+
+.link-section__title svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+}
+
+/* ---------------------------------------------------------------------------
+   Link Cards — individual Linktree-style buttons
+   --------------------------------------------------------------------------- */
+.link-card {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1.125rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-card:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Icon circle on the left of each card */
+.link-card__icon {
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-badge);
+    flex-shrink: 0;
+    color: var(--accent);
+}
+
+.link-card__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.link-card__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.link-card__name {
+    font-size: 0.938rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link-card__desc {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Arrow indicator on the right */
+.link-card__arrow {
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: transform var(--transition);
+}
+
+.link-card:hover .link-card__arrow {
+    transform: translateX(3px);
     color: var(--text-secondary);
+}
+
+.link-card__arrow svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* "Coming soon" badge overlay */
+.link-card--soon {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.link-card__badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--bg-badge);
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Certifications Section
+   --------------------------------------------------------------------------- */
+.certifications__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.certifications__title svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.6;
+}
+
+.certifications__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.5rem;
+}
+
+.cert-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
     text-decoration: none;
-    transition: all 0.3s ease;
+    color: var(--text-primary);
+    transition: all var(--transition);
 }
 
-.social-icon:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+.cert-badge:hover {
+    background: var(--bg-card-hover);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
-.social-icon svg {
-    width: 24px;
-    height: 24px;
+.cert-badge__icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: var(--bg-badge);
+    flex-shrink: 0;
+    color: var(--accent);
 }
 
-footer {
-    margin-top: 2.5rem;
+.cert-badge__icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.cert-badge__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cert-badge__name {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cert-badge__org {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------------------- */
+.footer {
+    text-align: center;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
 }
 
-footer p {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
+.footer__text {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
 }
 
+/* ---------------------------------------------------------------------------
+   Loading State
+   --------------------------------------------------------------------------- */
+.loading {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.loading__spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive — mobile adjustments
+   --------------------------------------------------------------------------- */
 @media (max-width: 640px) {
-    .container {
-        padding: 2rem 1.5rem;
+    .page-wrapper {
+        padding: 2rem 1rem;
     }
 
-    .name {
-        font-size: 2rem;
+    .profile__name {
+        font-size: 1.625rem;
     }
 
-    .tagline {
-        font-size: 1rem;
+    .profile__avatar {
+        width: 110px;
+        height: 110px;
     }
 
-    .profile-img {
-        width: 120px;
-        height: 120px;
-    }
-
-    .social-links {
-        gap: 0.75rem;
-    }
-
-    .social-icon {
-        width: 44px;
-        height: 44px;
+    .certifications__grid {
+        grid-template-columns: 1fr;
     }
 }

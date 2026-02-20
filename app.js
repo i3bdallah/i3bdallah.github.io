@@ -89,43 +89,78 @@
     }
 
     // =========================================================================
-    // Render: Link Sections (Linktree-style cards)
+    // Render: Link Sections (Content cards with grid layout)
     // =========================================================================
     function renderSections(sections) {
         const container = document.getElementById('sections-container');
 
         container.innerHTML = sections.map(section => {
-            // Build link cards for this section
-            const cards = section.links.map(link => {
-                const isSoon = link.coming_soon === true;
-                const href = isSoon ? '#' : link.url;
-                const target = href.startsWith('http') ? '_blank' : '_self';
-                const cardClass = `link-card${isSoon ? ' link-card--soon' : ''}`;
+            // Determine if this section should use card grid layout
+            const useGridLayout = ['video', 'course', 'slides'].includes(section.icon);
+
+            if (useGridLayout) {
+                // Build content cards for grid layout
+                const cards = section.links.map(link => {
+                    const isSoon = link.coming_soon === true;
+                    const href = isSoon ? '#' : link.url;
+                    const target = href.startsWith('http') ? '_blank' : '_self';
+                    const cardClass = `content-card${isSoon ? ' content-card--soon' : ''}`;
+
+                    // Image or icon placeholder
+                    const imageHtml = link.thumbnail || link.image
+                        ? `<img class="content-card__image" src="${link.thumbnail || link.image}" alt="${link.name}" loading="lazy" />`
+                        : `<div class="content-card__icon-placeholder">${icon(link.type || section.icon)}</div>`;
+
+                    return `
+                        <a class="${cardClass}" href="${href}" target="${target}" rel="noopener noreferrer">
+                            ${imageHtml}
+                            <div class="content-card__body">
+                                <h3 class="content-card__title">${link.name}</h3>
+                                ${link.description ? `<p class="content-card__desc">${link.description}</p>` : ''}
+                            </div>
+                            ${isSoon ? '<span class="content-card__badge">Soon</span>' : ''}
+                        </a>
+                    `;
+                }).join('');
 
                 return `
-                    <a class="${cardClass}" href="${href}" target="${target}" rel="noopener noreferrer">
-                        <span class="link-card__icon">${icon(link.type || section.icon)}</span>
-                        <span class="link-card__text">
-                            <span class="link-card__name">${link.name}</span>
-                            ${link.description ? `<span class="link-card__desc">${link.description}</span>` : ''}
-                        </span>
-                        ${isSoon
-                            ? '<span class="link-card__badge">Soon</span>'
-                            : `<span class="link-card__arrow">${icon('arrow')}</span>`
-                        }
-                    </a>
+                    <section class="link-section">
+                        <h2 class="link-section__title">
+                            ${icon(section.icon)}
+                            ${section.title}
+                        </h2>
+                        <div class="content-grid">${cards}</div>
+                    </section>
                 `;
-            }).join('');
+            } else {
+                // Use traditional list cards for Resume and other sections
+                const cards = section.links.map(link => {
+                    const isSoon = link.coming_soon === true;
+                    const href = isSoon ? '#' : link.url;
+                    const target = href.startsWith('http') ? '_blank' : '_self';
+                    const cardClass = `content-card content-card--resume${isSoon ? ' content-card--soon' : ''}`;
 
-            return `
-                <section class="link-section">
-                    <h2 class="link-section__title">
-                        ${icon(section.icon)}
-                        ${section.title}
-                    </h2>
-                    ${cards}
-                </section>
-            `;
+                    return `
+                        <a class="${cardClass}" href="${href}" target="${target}" rel="noopener noreferrer">
+                            <div class="content-card__icon-placeholder">${icon(link.type || section.icon)}</div>
+                            <div class="content-card__body">
+                                <h3 class="content-card__title">${link.name}</h3>
+                                ${link.description ? `<p class="content-card__desc">${link.description}</p>` : ''}
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+
+                return `
+                    <section class="link-section">
+                        <h2 class="link-section__title">
+                            ${icon(section.icon)}
+                            ${section.title}
+                        </h2>
+                        ${cards}
+                    </section>
+                `;
+            }
         }).join('');
     }
 
@@ -141,9 +176,14 @@
             const tag = cert.url ? 'a' : 'span';
             const hrefAttr = cert.url ? `href="${cert.url}" target="_blank" rel="noopener noreferrer"` : '';
 
+            // Use image if available, otherwise show icon
+            const iconHtml = cert.image
+                ? `<img src="${cert.image}" alt="${cert.name}" loading="lazy" />`
+                : icon('cert');
+
             return `
                 <${tag} class="cert-badge" ${hrefAttr}>
-                    <span class="cert-badge__icon">${icon('cert')}</span>
+                    <span class="cert-badge__icon">${iconHtml}</span>
                     <span class="cert-badge__info">
                         <span class="cert-badge__name">${cert.name}</span>
                         <span class="cert-badge__org">${cert.org} · ${cert.year}</span>

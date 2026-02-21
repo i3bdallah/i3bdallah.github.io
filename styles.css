@@ -80,7 +80,7 @@ body::after {
 .hero__avatar:hover { transform: scale(1.04) rotate(1deg); }
 
 .hero__name {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: clamp(2.25rem, 5.5vw, 3.5rem);
     font-weight: 800;
     letter-spacing: -0.035em;
@@ -270,13 +270,10 @@ body::after {
 
 .showcase__tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
     padding-bottom: 2px;
 }
-.showcase__tabs::-webkit-scrollbar { display: none; }
 
 .showcase__tab {
     display: inline-flex;

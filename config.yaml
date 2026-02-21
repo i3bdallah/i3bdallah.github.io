@@ -69,15 +69,15 @@ sections:
         description: "Coming soon"
         coming_soon: true
 
-  # --- Courses ---
-  - title: "Courses"
-    icon: "course"
-    links:
-      - name: "Udemy | AWS SDK for Pandas"
-        url: "#"
-        type: "course"
-        description: "Coming soon"
-        coming_soon: true
+  # # --- Courses ---
+  # - title: "Courses"
+  #   icon: "course"
+  #   links:
+  #     - name: "Udemy | AWS SDK for Pandas"
+  #       url: "#"
+  #       type: "course"
+  #       description: "Coming soon"
+  #       coming_soon: true
 
   # --- Slides & Presentations ---
   - title: "Slides & Presentations"

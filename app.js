@@ -28,6 +28,14 @@
         return d.innerHTML;
     }
 
+    function sectionHeader(num, title) {
+        const n = String(num).padStart(2, '0');
+        return `<div class="section__header">
+            <span class="section__num">${n}</span>
+            <h2 class="section__title">${esc(title)}</h2>
+        </div>`;
+    }
+
     function renderHero(profile) {
         return `
         <section class="hero" data-reveal>
@@ -49,64 +57,44 @@
         return `<nav class="social" data-reveal aria-label="Social links">${pills}</nav>`;
     }
 
-    function sectionHeader(num, title) {
-        const n = String(num).padStart(2, '0');
-        return `<div class="section__header">
-            <span class="section__num">${n}</span>
-            <h2 class="section__title">${esc(title)}</h2>
-        </div>`;
+    function renderResume(section, num) {
+        const cards = section.links.map(link => {
+            const target = link.url.startsWith('http') ? '_blank' : '_self';
+            return `<a class="resume-banner" href="${esc(link.url)}" target="${target}" rel="noopener noreferrer">
+                <span class="resume-banner__icon">${icon('download')}</span>
+                <span class="resume-banner__text">
+                    <span class="resume-banner__name">${esc(link.name)}</span>
+                    <span class="resume-banner__desc">${esc(link.description || '')}</span>
+                </span>
+                <span class="resume-banner__arrow">${icon('arrow')}</span>
+            </a>`;
+        }).join('');
+        return `<section class="section" data-reveal>${sectionHeader(num, section.title)}${cards}</section>`;
     }
 
-    function renderSections(sections) {
-        return sections.map((section, i) => {
-            const num = i + 1;
-
-            if (section.icon === 'resume') {
-                const cards = section.links.map(link => {
-                    const target = link.url.startsWith('http') ? '_blank' : '_self';
-                    return `<a class="resume-banner" href="${esc(link.url)}" target="${target}" rel="noopener noreferrer">
-                        <span class="resume-banner__icon">${icon('download')}</span>
-                        <span class="resume-banner__text">
-                            <span class="resume-banner__name">${esc(link.name)}</span>
-                            <span class="resume-banner__desc">${esc(link.description || '')}</span>
-                        </span>
-                        <span class="resume-banner__arrow">${icon('arrow')}</span>
-                    </a>`;
-                }).join('');
-                return `<section class="section" data-reveal>
-                    ${sectionHeader(num, section.title)}${cards}
-                </section>`;
-            }
-
-            const cards = section.links.map(link => {
-                const isSoon = link.coming_soon === true;
-                const href = isSoon ? '#' : link.url;
-                const target = href.startsWith('http') ? '_blank' : '_self';
-                const cls = `card${isSoon ? ' card--soon' : ''}`;
-                const thumb = link.thumbnail || link.image;
-                const imageHtml = thumb
-                    ? `<img class="card__thumb" src="${esc(thumb)}" alt="${esc(link.name)}" loading="lazy" />`
-                    : `<div class="card__icon-area">${icon(link.type || section.icon)}</div>`;
-                return `<a class="${cls}" href="${esc(href)}" target="${target}" rel="noopener noreferrer">
-                    ${imageHtml}
-                    <div class="card__body">
-                        <h3 class="card__title">${esc(link.name)}</h3>
-                        ${link.description ? `<p class="card__desc">${esc(link.description)}</p>` : ''}
-                    </div>
-                    ${isSoon ? '<span class="card__badge">Soon</span>' : ''}
-                </a>`;
-            }).join('');
-
-            return `<section class="section" data-reveal>
-                ${sectionHeader(num, section.title)}
-                <div class="card-grid">${cards}</div>
-            </section>`;
+    function buildContentCards(links, sectionIcon) {
+        return links.map(link => {
+            const isSoon = link.coming_soon === true;
+            const href = isSoon ? '#' : link.url;
+            const target = href.startsWith('http') ? '_blank' : '_self';
+            const cls = `card${isSoon ? ' card--soon' : ''}`;
+            const thumb = link.thumbnail || link.image;
+            const imageHtml = thumb
+                ? `<img class="card__thumb" src="${esc(thumb)}" alt="${esc(link.name)}" loading="lazy" />`
+                : `<div class="card__icon-area">${icon(link.type || sectionIcon)}</div>`;
+            return `<a class="${cls}" href="${esc(href)}" target="${target}" rel="noopener noreferrer">
+                ${imageHtml}
+                <div class="card__body">
+                    <h3 class="card__title">${esc(link.name)}</h3>
+                    ${link.description ? `<p class="card__desc">${esc(link.description)}</p>` : ''}
+                </div>
+                ${isSoon ? '<span class="card__badge">Soon</span>' : ''}
+            </a>`;
         }).join('');
     }
 
-    function renderCerts(certs, startNum) {
-        if (!certs || !certs.length) return '';
-        const badges = certs.map(c => {
+    function buildCertCards(certs) {
+        return certs.map(c => {
             const tag = c.url ? 'a' : 'span';
             const href = c.url ? ` href="${esc(c.url)}" target="_blank" rel="noopener noreferrer"` : '';
             const img = c.image
@@ -120,9 +108,43 @@
                 </span>
             </${tag}>`;
         }).join('');
-        return `<section class="section" data-reveal>
-            ${sectionHeader(startNum, 'Certifications')}
-            <div class="certs-grid">${badges}</div>
+    }
+
+    function renderShowcase(contentSections, certs, startNum) {
+        const tabs = [];
+        const panels = [];
+
+        contentSections.forEach(section => {
+            tabs.push({ label: section.title, icon: section.icon, count: section.links.length });
+            panels.push(`<div class="card-grid">${buildContentCards(section.links, section.icon)}</div>`);
+        });
+
+        if (certs && certs.length) {
+            tabs.push({ label: 'Certifications', icon: 'cert', count: certs.length });
+            panels.push(`<div class="certs-grid">${buildCertCards(certs)}</div>`);
+        }
+
+        if (!tabs.length) return '';
+
+        const tabsHtml = tabs.map((t, i) => `
+            <button class="showcase__tab${i === 0 ? ' showcase__tab--active' : ''}" data-tab="${i}" type="button">
+                ${icon(t.icon)}
+                <span>${esc(t.label)}</span>
+                <span class="showcase__count">${t.count}</span>
+            </button>`).join('');
+
+        const panelsHtml = panels.map((p, i) => `
+            <div class="showcase__panel${i === 0 ? ' showcase__panel--active' : ''}" data-panel="${i}">
+                ${p}
+            </div>`).join('');
+
+        return `
+        <section class="section" data-reveal>
+            ${sectionHeader(startNum, 'Content')}
+            <div class="showcase">
+                <nav class="showcase__tabs" role="tablist">${tabsHtml}</nav>
+                <div class="showcase__panels">${panelsHtml}</div>
+            </div>
         </section>`;
     }
 
@@ -130,6 +152,28 @@
         return `<footer class="footer" data-reveal>
             <p class="footer__text">${esc(footer.text)}</p>
         </footer>`;
+    }
+
+    function initTabs() {
+        const showcase = document.querySelector('.showcase');
+        if (!showcase) return;
+
+        showcase.addEventListener('click', (e) => {
+            const tab = e.target.closest('.showcase__tab');
+            if (!tab) return;
+            const idx = tab.dataset.tab;
+
+            showcase.querySelectorAll('.showcase__tab').forEach(t =>
+                t.classList.toggle('showcase__tab--active', t.dataset.tab === idx));
+
+            showcase.querySelectorAll('.showcase__panel').forEach(p => {
+                if (p.dataset.panel === idx) {
+                    p.classList.add('showcase__panel--active');
+                } else {
+                    p.classList.remove('showcase__panel--active');
+                }
+            });
+        });
     }
 
     function setupReveal() {
@@ -151,16 +195,23 @@
             const res = await fetch('config.yaml');
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const config = jsyaml.load(await res.text());
-            const app = document.getElementById('app');
 
-            app.innerHTML = [
+            const resumeSections = (config.sections || []).filter(s => s.icon === 'resume');
+            const contentSections = (config.sections || []).filter(s => s.icon !== 'resume');
+
+            let num = 1;
+            const resumeHtml = resumeSections.map(s => renderResume(s, num++)).join('');
+            const showcaseHtml = renderShowcase(contentSections, config.certifications, num);
+
+            document.getElementById('app').innerHTML = [
                 renderHero(config.profile),
                 renderSocial(config.social),
-                renderSections(config.sections),
-                renderCerts(config.certifications, (config.sections?.length || 0) + 1),
+                resumeHtml,
+                showcaseHtml,
                 renderFooter(config.footer),
             ].join('');
 
+            initTabs();
             requestAnimationFrame(setupReveal);
         } catch (err) {
             console.error('Init failed:', err);

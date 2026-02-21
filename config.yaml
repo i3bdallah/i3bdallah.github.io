@@ -57,12 +57,12 @@ sections:
         url: "https://bit.ly/3w6ojFn"
         type: "video"
         description: "Overview about data certificates in Arabic"
-        thumbnail: "assets\data_cert_overview.png"  # Replace with actual video ID
+        thumbnail: "assets\\data_cert_overview.png"  # Replace with actual video ID
       - name: "Data Quality 101"
         url: "https://www.youtube.com/watch?v=wcbEmqJqLdQ&t=2523s"
         type: "video"
         description: "Overview about data certificates in Arabic"
-        thumbnail: "assets\dq.png"  # Replace with actual video ID
+        thumbnail: "assets\\dq.png"  # Replace with actual video ID
       - name: "Process Mining 101"
         url: "#"
         type: "video"

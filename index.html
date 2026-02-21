@@ -3,69 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdullah Kassas — About Me</title>
+    <title>Abdullah Kassas — Data Architecture & Engineering</title>
+    <meta name="description" content="Data architecture and engineering expert. Building scalable data platforms, teaching, and creating content.">
 
-    <!-- Modern font: Inter from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Site styles -->
     <link rel="stylesheet" href="styles.css">
-
-    <!--
-        js-yaml: lightweight YAML parser so the site can be config-driven.
-        All content lives in config.yaml — no code changes needed to update info.
-    -->
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
-
 <body>
-    <!--
-        The entire page is a single centered column, inspired by Linktree.
-        All content is injected dynamically from config.yaml by app.js.
-    -->
-    <div class="page-wrapper">
-        <main class="container" id="app">
-
-            <!-- ============================================================
-                 PROFILE SECTION — avatar, name, tagline, bio
-                 ============================================================ -->
-            <section class="profile" id="profile-section">
-                <!-- Populated by app.js -->
-            </section>
-
-            <!-- ============================================================
-                 SOCIAL ICONS — compact row of icon links
-                 ============================================================ -->
-            <nav class="social-row" id="social-section" aria-label="Social links">
-                <!-- Populated by app.js -->
-            </nav>
-
-            <!-- ============================================================
-                 LINK SECTIONS — Linktree-style categorized link cards
-                 ============================================================ -->
-            <div id="sections-container">
-                <!-- Populated by app.js -->
-            </div>
-
-            <!-- ============================================================
-                 CERTIFICATIONS — compact badge grid
-                 ============================================================ -->
-            <section class="certifications" id="certifications-section">
-                <!-- Populated by app.js -->
-            </section>
-
-            <!-- ============================================================
-                 FOOTER
-                 ============================================================ -->
-            <footer class="footer" id="footer-section">
-                <!-- Populated by app.js -->
-            </footer>
-        </main>
+    <div class="site" id="app">
+        <div class="loading">
+            <div class="loading__spinner"></div>
+            <p>Loading...</p>
+        </div>
     </div>
-
-    <!-- App logic: fetches config.yaml, parses it, renders everything -->
     <script src="app.js"></script>
 </body>
 </html>
